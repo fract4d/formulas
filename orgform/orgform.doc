@@ -1,0 +1,386 @@
+                         INFORMATION RE ORGFORM.ZIP
+                               (Version 3.3)
+                              October 10, 1999
+
+(Some formulas in this compilation require Fractint v. 20.0 to run) 
+
+ORGFORM.ZIP includes the following:
+
+        ORGFORM.DOC - this document
+        
+        ORGFORM.EXE - a program to build and maintain an organized Fractint 
+                      formula directory
+        
+        _*.FRM      - various files containing Fractint formulas, created
+                      from the files on my hard drive as of October 9, 1999. 
+                      These include virtually all formulas uploaded to the
+                      Digital Art Forum of CompuServe through that date, and 
+                      in messages to Fractint and fractal art message sites 
+                      now active on the internet.
+
+        Fractint is a freeware fractal generating program ((C) The Stone 
+Soup Group) available from Library 9 of the Digital Art Forum of CompuServe 
+as FRAINT.EXE, and at Noel Giffin's fractal database website at 
+http://spanky.triumf.ca. If you are not familiar with Fractint, you should 
+download the program and prepare to have your life become a shambles. 
+ORGFORM is a utility to deal with certain DOS text files used by Fractint. 
+These files have an extension ".frm" and contain formulas which Fractint 
+can use to generate fractal images. Tutorials explaining the basics of
+writing your own formulas are included in Fractint's distribution
+package.
+
+        Those who create formulas are not lacking in energy. Some users have
+created hundreds of formulas, and more are posted regularly. These postings 
+are essentially unregulated, which is only proper, but, as a result, the 
+accumulated postings contain many copies because formulas are reposted 
+for various reasons. In addition, and more worrisome, is the fact that 
+there is no standardized naming convention for formulas, and there are 
+some instances where a formula name has been used again for a completely 
+different formula.
+
+        My goal has been twofold: first, develop a set a formula files 
+containing unique formula entries only; and, second, organize the files so 
+that different formulas with the same name are readily identifiable. 
+The result is ORGFORM (ORGanize FORMulas).
+
+        Beginning in the summer of 1996 I stopped adding new duplicate 
+named formulas to the compilation. Formula writers who want to have their
+formulas included in the compilation should take care to give their formulas
+unique names.
+
+=================
+ORGFORM.EXE v. 3.3
+==================
+
+     REVISION HISTORY
+
+       v. 3.3
+
+        Added recognition of ismand as a predefined token 
+           to conform to a change in Fractint 20.0.
+       
+       v. 3.2
+
+        Added recognition of if, else, elseif, and endif as
+           predefined tokens to conform to changes in Fractint 19.6.
+
+        .par files can now be used as input files; Orgform will extract
+           only the formula entries (i.e. those with the label frm:) 
+           for inclusion in the compilation.
+
+       v. 3.1
+
+        Added recognition of whitesq, scrnpix, scrnmax, and maxit as
+           predefined variables, and use of '\' character to wrap
+           long lines of formulas, to conform to changes in Fractint 19.5.
+
+        Elapsed time of Orgform run is shown at the conclusion of the 
+           session.
+
+        All formulas have been reformatted for more uniform appearance and
+           easier reading in <z> and F2 screens.
+
+       v. 3.0
+
+        Revised entry finding code to conform to Fractint's source code.
+           Orgform now runs almost twice as fast as in the past and is
+           pretty much assured of extracting the same entries from a file
+           as would be found by Fractint v. 19.4.
+
+        Like Fractint, only the first 18 characters of a formula name are
+           recognized.
+
+        Added predefined constants floor, ceil, round, and trunc to conform
+           to Fractint v. 19.4 enhancements.
+       
+       v. 2.1
+
+        Improved algorithm for comparing formulas for identity - 
+           formulas which are the same but for the variable names
+           used are now recognized as the same formula.
+
+        Fixed a bug which caused stray characters to appear in certain
+           circumstances in the headings to orgform.log and orgform.sum
+
+        Made revisions to some formulas to improve compatibility with
+           Fractint v. 19.3. These formulas should work the same as the
+           original versions under Fractint 19.2 and prior. A comment is
+           included in each formula which was changed, so that revision
+           history can be seen.
+
+        Improved error checking and memory management features.
+
+
+
+       v. 2.0
+        
+        Improved sorting algorithm is faster and more stable.
+
+        Separate files for Bob Carr's formulas, to keep _c.frm from
+           becoming unmanageably large. Formulas beginning with 
+           "carr" are stored in files beginning "_rc". 
+
+        Switches /h, /h+, /h-, /s, /r, and /a added (See below). 
+        
+        Files which would be orgform files except that a ! is
+           the first character instead of an underscore, can be used
+           as input files, and the "source" line will not be added to
+           a formula copied to the orgform files. This permits the
+           combining of orgform files without accumulating unnecessary
+           source references.
+
+
+        ORGFORM is (c) George G. Martin, 1996 - 1999. The program is 
+freeware. The program may be distributed for private use without notice to 
+the author. However, no commercial use of the program may be made unless the 
+author's consent has been obtained. EMail me at ggmartin@compuserve.com. 
+Please let me know if you have any comments or suggestions. 
+
+     No representation or warranty of any kind is made with respect to
+this program. 
+
+   INPUT: Command line syntax is 
+   
+        ORGFORM [path\inputfiles... ] [/switch...]
+
+     Any number of arguments can be used, and standard DOS filename 
+wildcards are permitted.
+
+        EXAMPLE: ORGFORM  *.frm  c:\temp\a*.frm /h+ /s
+    
+will take all formula files in the current directory and all formula 
+files beginning with "a" in the temp directory as input. HOWEVER: no matter 
+what arguments are used, the program will not open any input file  
+which does not have an extension ".frm" or ".par", and also any file whose 
+name begins with an underscore (e.g. a.doc and _a.frm would not be opened, 
+even if the command line argument were *.*). The meaning of the switches is  
+described below.
+
+     Input files are opened only for purposes of reading them; they are
+not changed by ORGFORM.
+
+     OUTPUT: The program reads each formula entry from the input files, and
+copies it to a file with the name _?.frm, depending on the first letter of 
+the formula (e.g. a formula named George would be copied to _g.frm); if the
+output file does not exist, it will be created. Formulas beginning with 
+numbers are added to _num.frm, and with non-alpha characters to _chr.frm.
+If the output file exists, the formula will be added to the file; existing 
+entries will not be affected. If a formula with the same name is present in 
+the output file, the program checks to see if the symmetry and formula math 
+are the same - if they are, the formula is not added to the file, thus 
+avoiding the accumulation of identical entries. If the symmetry or math is 
+not the same, the formula is added to a file with the name _?_dup.frm 
+(e.g. if a formula George was found but had different math, the new George 
+would be added to _g_dup.frm). When a formula is added to a file, a comment 
+is inserted in the formula entry showing the name of the source file. 
+
+     Because of the prolific output of Bob Carr, formulas beginning with
+the letters "carr" are added to files named _rc*.frm. The "_rc" files are 
+named based on the fifth character of a formula beginning with the name 
+"carr". If the character is a number, the formula is added a file _rc#.frm 
+(e.g., carr1677 is in _rc1.frm). Otherwise, the formula is added to _rc.frm. 
+
+     In addition to the standard orgform files, _extra.frm is also treated
+as an orgform file, and will be sorted at the end of an orgform run. Any  
+text between entries is lost in this process.
+
+     The comments and text in an input file appearing between formula 
+entries are ignored by the program - only the formula entries themselves 
+(including the comments contained within the entries) are written to the 
+output file.
+
+        All output files are written to the current directory. 
+
+        After the processing of the formulas is completed, the program
+rewrites each output file to put the formula entries into alphabetical order.
+In effect, the output files are a multi-volume encyclopedia of the formulas 
+which you have. 
+
+===============================
+MAINTAINING A FORMULA DIRECTORY
+===============================
+
+     Most frequent users of FRACTINT have a separate directory on their
+hard drives for formula files. Fractint v. 20 provides for the use of
+a separate directory for Orgform formula files, which will shorten the
+amount of time which the program takes to locate a particular formula.
+By way of example, my fractint.exe is at c:\fract20, formulas which I have
+not yet processed into the Orgform files are at c:\fract20\formulas, and
+the Orgform files are at c:\fract20\formulas\orgfiles. FRACTINT knows
+where to find the formulas because of a file "sstools.ini", located in the
+DOS path (mine is in the windows directory), which identifies where the
+formulas are to be found. See the Fractint documentation for a description
+of the creation, format and use of the sstools.ini file.
+
+     When I download a new formula file, I add it to the formula directory, 
+and when I'm ready to add it to the Orgform collection I copy it to the
+orgfiles directory and run ORGFORM. I then move the new file to a floppy 
+disk. This results in one complete set of unique formulas on my hard drive, 
+and the numerous source files backed up on floppy disks.
+
+========
+SWITCHES
+========
+
+     /h, /h+, and /h- (History switches). Use of one of these switches
+will cause a file "orgform.log" to be created, and the disposition of
+each formula in a run of ORGFORM will be recorded. If the file already 
+exists, the information will be appended, and previous information will
+not be erased. /h lists every formula looked at. /h+ lists only those 
+formulas which were looked at and added to an orgform file. /h- lists only
+those formulas which were looked at and skipped. 
+
+
+/s (Summary switch). This switch causes a file "orgform.sum" to be
+created. The file lists the number of formulas in each orgform file. The 
+switch can be used in connection with a regular run of ORGFORM, or alone 
+(i.e. orgform /s). If the file already exists, information will be appended.
+
+     /r (Reconstruct switch). This switch causes a file "reconstr.frm" to 
+be created. One additional command line argument, in the form "*.frm" or
+"*.par" is required when this switch is used. The program searches all 
+orgform files and copies to reconstr.frm those formulas whose source is the 
+one specified in the command line argument. Note that reconstr.frm will not 
+be the same as the original source file. First, all "inter formula" text is
+gone. Also, formulas which were not copied to an orgform file because they 
+were identical to existing formulas will be missing from reconstr.frm.
+
+     /a (Alphabatize all orgform files). Normally, ORGFORM only alphabatizes
+orgform files which have been changed by the current run of ORGFORM. This
+switch causes all orgform files to be alphabatized. This will be helpful
+if you have changed an orgform file with a text editor. The switch can be
+used in connection with a regular run of ORGFORM, or alone.
+
+
+=================================         
+FORMULAS INCLUDED IN THIS PACKAGE
+=================================
+
+     Here is a list of the formula files from which the orgform files were 
+derived. They were obtained primarily from postings to the Digital Art forum 
+on CompuServe. Several are from Noel Giffin's fractal internet site at
+http://spanky.triumf.ca. I have also included formulas posted in messages
+on the CompuServe forum, to Jon Noring's Fractal-Art message list, and to
+Tim Wegner's Fractint message list; formulas found on Fractint users' WEB 
+pages, and many formulas sent directly to me by formula writers for 
+inclusion in the compilation (a practice which I encourage and am happy 
+to accommodate).
+
+ -XMAS-.FRM     01AJ.FRM       01CARR.FRM     03CARR.FRM     04CARR.FRM
+ 051597-2.FRM   07CARR.FRM     08CARR.FRM     09CARR.FRM     0FROM_ML.FRM
+ 0FUNGUS.FRM    10CARR.FRM     1ST.FRM        1WHAT.FRM      1WHAT3.FRM
+ 20CARR.FRM     22CARR.FRM     23CARR.FRM     24CARR.FRM     25CARR.FRM
+ 26CARR.FRM     27CARR.FRM     28CARR.FRM     29CARR.FRM     30CARR.FRM
+ 31CARR.FRM     32CARR.FRM     33CARR.FRM     34CARR.FRM     35CARR.FRM
+ 36CARR.FRM     37CARR.FRM     38CARR.FRM     39CARR.FRM     3D_BALLS.FRM
+ 3DPHENOX.FRM   40CARR.FRM     41CARR.FRM     42ACARR.FRM    42BCARR.FRM
+ 42CARR.FRM     42CCARR.FRM    42DCARR.FRM    42ECARR.FRM    42FCARR.FRM
+ 42GCARR.FRM    42HCARR.FRM    42ICARR.FRM    42JCARR.FRM    42KCARR.FRM
+ 42LCARR.FRM    42MCARR.FRM    42NCARR.FRM    42OCARR.FRM    42PCARR.FRM
+ 42QCARR.FRM    42RCARR.FRM    42SCARR.FRM    42TCARR.FRM    42UCARR.FRM
+ 42VCARR.FRM    42WCARR.FRM    42XCARR.FRM    42YCARR.FRM    42ZCARR.FRM
+ 43ACARR.FRM    43BCARR.FRM    43CCARR.FRM    43DCARR.FRM    43ECARR.FRM
+ 43FCARR.FRM    43GCARR.FRM    43HCARR.FRM    43ICARR.FRM    43JCARR.FRM
+ 43KCARR.FRM    4D.FRM         4DFRACT.FRM    5_BROTS.FRM    941227.FRM
+ 9601.FRM       9604.FRM       9609.FRM       96_MSG_2.FRM   96_MSG_3.FRM
+ 96MSG.FRM      97MSG.FRM      98MSG.FRM      99MSG.FRM      A1.FRM
+ ABPF96.FRM     AD1.FRM        AD1_MISS.FRM   AD3.FRM        AD4.FRM
+ AD5.FRM        AD6.FRM        AD7.FRM        AD978-1.FRM    AD99_1.FRM
+ ALLISON.FRM    ALLISON2.FRM   ALTURA.FRM     ANDERS.FRM     ANDY_1.FRM
+ ANDY_2.FRM     ASTJSTMT.FRM   ASTRAL.FRM     BAIL_OUT.FRM   BAILOUT.FRM
+ BECK.FRM       BEJ'S.FRM      BEJ'S2.FRM     BEJ-MARI.FRM   BEJ0014.FRM
+ BEJ0015.FRM    BEJ011.FRM     BEJ012.FRM     BEJ3.FRM       BEJ4.FRM
+ BEJONES.FRM    BESSELS.FRM    BIG_PIG.FRM    BILLATNY.FRM   BILLSPIR.FRM
+ BIZARRE.FRM    BJ-MJN-1.FRM   BJ-PHC02.FRM   BJ-SG8.FRM     BOF.FRM
+ BOFMAPS.FRM    BOKONON.FRM    BROSSI.FRM     BSHNG.FRM      BSHNG2.FRM
+ BSHNG97O.FRM   BUILTN.FRM     BUILTN2.FRM    BURT.FRM       CALENDAR.FRM
+ CANON.FRM      CAR1248X.FRM   CARLSON.PAR    CARLSON2.FRM   CARR-1.FRM
+ CARR-2.FRM     CARR-9.FRM     CARR.FRM       CARR1.FRM      CARR1471.FRM
+ CARR1474.FRM   CARR1521.FRM   CHBY1.FRM      CHBY10.FRM     CHBY11.FRM
+ CHBY12.FRM     CHBY13.FRM     CHBY14.FRM     CHBY15.FRM     CHBY16.FRM
+ CHBY17.FRM     CHBY18.FRM     CHBY19.FRM     CHBY2.FRM      CHBY20.FRM
+ CHBY21.FRM     CHBY22.FRM     CHBY23.FRM     CHBY24.FRM     CHBY25.FRM
+ CHBY26.FRM     CHBY27.FRM     CHBY28.FRM     CHBY29.FRM     CHBY3.FRM
+ CHBY30.FRM     CHBY4.FRM      CHBY5.FRM      CHBY6.FRM      CHBY7.FRM
+ CHBY8.FRM      CHBY9.FRM      CHOICE.FRM     CONTEST.FRM    CRAZYNWT.FRM
+ CROCKER.FRM    CUBIST.FRM     D-ROCK.FRM     DA00.FRM       DAMION.FRM
+ DAN.FRM        DAVFAV1.FRM    DAVWEIRD.FRM   DECOMP.FRM     DESERTSP.PAR
+ DETAILS.FRM    DEWEY.FRM      DMJ-2J98.FRM   DMJ-PUB.FRM    DN2ND.FRM
+ DONS.FRM       DRAGBAT.FRM    DRCHA.FRM      EBBERT.FRM     EGYPTIAN.FRM
+ ELI.FRM        ELLIPTIC.FRM   EMBOSS.FRM     EPSCR.FRM      ESC-IFS.FRM
+ EXPLODE.FRM    F(G(Z))).FRM   FAULTY.FRM     FFCPM.FRM      FG27.PAR
+ FG2C.PAR       FG34.PAR       FG35.PAR       FGZ.FRM        FISH.FRM
+ FIXRCH.FRM     FKT.FRM        FLIP.FRM       FN-RATZ.FRM    FORM1.FRM
+ FORM2.FRM      FORMTYPE.FRM   FORMULAS.FRM   FORUMMSG.FRM   FRAC_ART.FRM
+ FRAC_ML.FRM    FRACLIST.FRM   FRACT-02.PAR   FRACT001.FRM   FRACT002.FRM
+ FRACT003.FRM   FRACT182.FRM   FRACT196.FRM   FRACTALS.FRM   FRACTFUN.FRM
+ FRACTIN2.FRM   FRACTINT.FRM   FRACTMIX.FRM   FRACV13R.FRM   FRACZOO.FRM
+ FRAME.FRM      FRMTUTOR.FRM   FTLAYERS.FRM   FUNGUS.FRM     FUZZY.FRM
+ GAL2.PAR       GALLET-1.FRM   GALLET-2.FRM   GALLET-3.FRM   GALLET-4.FRM
+ GALLET-5.FRM   GALLET-6.FRM   GALLET-7.FRM   GALLET-N.FRM   GALLET.FRM
+ GALLET10.FRM   GALLET_0.FRM   GALLET_4.FRM   GALLET_8.FRM   GALLET_9.FRM
+ GESTALT.FRM    GFPEULER.FRM   GFPTCH.FRM     GINGER.PAR     GIRVAN.FRM
+ GIRVMAND.FRM   GIRVNEWT.FRM   GLYNN.FRM      GRAVE.FRM      GUENZEL.FRM
+ GUENZEL1.FRM   HALLEY.FRM     HALLWEEN.FRM   HETERO.FRM     HUALP.FRM
+ HUBERT.FRM     HUGHES.FRM     HUTTON.FRM     HYP_NEWT.FRM   IFS196.FRM
+ IFSINV.FRM     IKENAGA.FRM    ILVI.FRM       IMAGELAB.FRM   IMPROV2.FRM
+ IMPROVED.FRM   INANDOUT.FRM   INTERNET.FRM   INVASIO2.FRM   J-CARR.FRM
+ JACK5.FRM      JAX.FRM        JD10.FRM       JDFLAKE.FRM    JDMASK1.FRM
+ JDPHC02.FRM    JDPHC03.FRM    JDWORK4.FRM    JE-001.FRM     JE-002.FRM
+ JE-003.FRM     JE-004.FRM     JE-005.FRM     JE-006.FRM     JE082701.FRM
+ JE090801.FRM   JEFF.FRM       JMCR1.FRM      JMCR2.FRM      JO_WE_31.FRM
+ JO_WE_32.FRM   JO_WE_33.FRM   JO_WE_35.FRM   JO_WE_38.FRM   JO_WE_46.FRM
+ JO_WE_47.FRM   JO_WE_48.FRM   JO_WE_50.FRM   JO_WE_53.FRM   JO_WE_54.FRM
+ JO_WE_55.FRM   JO_WE_71.FRM   JONSICON.FRM   JOWE29.FRM     JOWE49.FRM
+ JOWE_43.FRM    JOWE_44.FRM    JPL1.FRM       JULITILE.FRM   JUNE22.FRM
+ JUTE.FRM       KAPET007.FRM   KAPET011.FRM   KAPET012.FRM   KG0.FRM
+ KG1.FRM        KG10.FRM       KG11.FRM       KG12.FRM       KG13.FRM
+ KG14.FRM       KG15.FRM       KG16.FRM       KG17.FRM       KG18.FRM
+ KG19.FRM       KG2.FRM        KG20.FRM       KG21.FRM       KG22.FRM
+ KG3.FRM        KG4.FRM        KG5.FRM        KG6.FRM        KG7.FRM
+ KG8.FRM        KG9.FRM        KGEXP.FRM      KGFUNC.FRM     KGNEW.FRM
+ KGOOF1.FRM     KGOOF10.FRM    KGOOF11.FRM    KGOOF1P.FRM    KGOOF1X.FRM
+ KGOOF2.FRM     KGOOF2P.FRM    KGOOF2X.FRM    KGOOF3.FRM     KGOOF3P.FRM
+ KGOOF3X.FRM    KGOOF4.FRM     KGOOF4P.FRM    KGOOF4X.FRM    KGOOF5.FRM
+ KGOOF5P.FRM    KGOOF5X.FRM    KGOOF6.FRM     KGOOF6P.FRM    KGOOF6X.FRM
+ KGOOF7.FRM     KGOOF7P.FRM    KGOOF7X.FRM    KGOOF8.FRM     KGOOF8X.FRM
+ KGOOF9.FRM     KGOOF9X.FRM    KGXOF.FRM      KMOE-01.FRM    KMOE-02.FRM
+ KMOE-03.FRM    KORFU.FRM      LA-MOD.FRM     LAMBDA.FRM     LAMMENS.FRM
+ LAMTET.FRM     LEELANE.FRM    LEELANE1.FRM   LES.FRM        LESFRM13.FRM
+ LGD001.FRM     LIAR.FRM       LISTER.FRM     LKM.FRM        LSKINNER.FRM
+ M_STALKS.FRM   MAD_COW.FRM    MAGNETIK.FRM   MANDELM.FRM    MANDJ.FRM
+ MANDNEWT.FRM   MANY_MAN.FRM   MANZANAJ.FRM   METHODS.FRM    MIKEY.FRM
+ MISSING.FRM    MJM-PHC.FRM    MNEWTON.FRM    MODLES13.FRM   MONGO.FRM
+ MSG-1.FRM      MSG.FRM        MSG1.FRM       NEST.FRM       NEUTRON.FRM
+ NEW.FRM        NEWCPC.FRM     NEWFORM.FRM    NEWFORMS.FRM   NEWTCHB2.FRM
+ NEWTCHEB.FRM   NM_MJ.FRM      NOEL.FRM       NOEL1.FRM      NOEL2.FRM
+ NOVA.FRM       NOVAEXPO.FRM   NOVAK_1.FRM    NUCLEAR.FRM    NULIAR.FRM
+ OLIO.FRM       OMICRON.FRM    ORMAN.FRM      ORMAN17A.FRM   ORMAN2.FRM
+ ORMAN3.FRM     OVERKILL.FRM   PABLO.FRM      PARABOL.FRM    PARSER.FRM
+ PAUL.FRM       PD-AUG97.FRM   PD_LM.FRM      PDERB.FRM      PDG02.FRM
+ PDG03.FRM      PDG04.FRM      PDG05.FRM      PETERMAN.FRM   PETERNEW.FRM
+ PGD.FRM        PHC.FRM        PHC_1.FRM      PHCTOPNG.FRM   PHCTUTOR.FRM
+ PHOENI.FRM     PHOENIX2.FRM   PHONG.FRM      PHONG2.FRM     PHYSICS.FRM
+ PIXEY.FRM      PJ.FRM         PJHCON.FRM     POP.FRM        PRECOGNA.FRM
+ PRIMAL.FRM     PSYCHE.FRM     PWR-BUG.PAR    QUAD.FRM       QUARTZ.FRM
+ QUERATZ.FRM    QUERTY.FRM     RAMIRO.FRM     RATZ.FRM       RBAGULA.FRM
+ RCL.FRM        RCLPAR.FRM     REB001.FRM     REB002.FRM     REB003.FRM
+ REB004.FRM     REB005.FRM     REB006.FRM     REB007.FRM     REB008.FRM
+ ROBERT.FRM     ROLLO.FRM      RON1.FRM       RSQTITMJ.FRM   SAM.FRM
+ SAMPLE.FRM     SCARY.FRM      SCHIZO.FRM     SCHIZO_2.FRM   SCI_FRAC.FRM
+ SECANT.FRM     SELECT.FRM     SG-BC-BJ.FRM   SG_GRAVJ.PAR   SG_MISC.FRM
+ SGJDG701.PAR   SHAKTI.FRM     SKINNER.FRM    SKINV13R.FRM   SKINV151.FRM
+ SMUUS.FRM      SNAZZY.FRM     SPCB.FRM       SPEC.FRM       SPIDCPLX.FRM
+ STRICT.FRM     SURREAL.FRM    SYMMIC.FRM     TCHEBYCH.FRM   TENT_MOD.PAR
+ TESS.FRM       TEST.FRM       TESTCARR.FRM   THE_OMEN.FRM   TILE.FRM
+ TILING.FRM     TINSEL.FRM     TRACY.FRM      TRIANGL.FRM    TRITZ.FRM
+ TRMOE1.FRM     TRMOE2.FRM     U-DRAW.FRM     U-DRAW10.FRM   U-DRAW11.FRM
+ U-DRAW12.FRM   U-DRAW13.FRM   U-DRAW14.FRM   U-DRAW15.FRM   U-DRAW16.FRM
+ U-DRAW17.FRM   U-DRAW18.FRM   U-DRAW19.FRM   U-DRAW2.FRM    U-DRAW20.FRM
+ U-DRAW21.FRM   U-DRAW22.FRM   U-DRAW23.FRM   U-DRAW24.FRM   U-DRAW25.FRM
+ U-DRAW26.FRM   U-DRAW27.FRM   U-DRAW28.FRM   U-DRAW29.FRM   U-DRAW3.FRM
+ U-DRAW30.FRM   U-DRAW4.FRM    U-DRAW4A.FRM   U-DRAW4B.FRM   U-DRAW5.FRM
+ U-DRAW6.FRM    U-DRAW6T.FRM   U-DRAW7.FRM    U-DRAW8.FRM    U-DRAW9.FRM
+ ULI.FRM        VP001.FRM      WELNER.FRM     WHATEVER.FRM   WHATZIT.FRM
+ WILSON.FRM     ZG.FRM         ZSAZSA.FRM 
+

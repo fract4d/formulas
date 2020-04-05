@@ -20,7 +20,9 @@ bailout:
 Draws the Mandelbrot set.
 
 
-The intent is to provide an easy way for authors of fractal formulas to collaborate on and share formulas.
+The intent of this repository is to provide an easy way for authors of fractal formulas to collaborate on and share formulas.
+
+All formulas in the datasbase are MIT-licensed *except* those in the orgform directory. See [orgform/README.md](orgform/README.md) for more detail.
 
 
 

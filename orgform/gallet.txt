@@ -1,0 +1,33 @@
+
+    Gallet.zip collects PARs and FRMs that I've created in November and 
+December 1995.
+
+    The Fractint parameter file GALLET.PAR and its resulting images are
+Copyright 1995 by Sylvie Gallet. It may ** NOT ** be used for commercial 
+purposes without my explicit prior consent.
+
+    Your comments are welcome!
+    Have fun!
+
+	Sylvie Gallet  CIS: [101324,3444]
+                       Internet: 101324.3444@compuserve.com
+
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+    Most of these images were created with FRACTINT 19 or 19.2. I don't know 
+what you'll get with an earlier version of Fractint.
+
+    Don't remove the 'periodicity=0' parameters in the .PAR file.
+
+TO USE THESE FILES:
+
+    First, find the location(s) your other *.PAR and *.FRM files. Put these
+new files there.
+
+    Now start up Fractint. Hit the '@' key, then hit 'F6' to see a list of
+available PAR files. Choose GALLET. Now just choose the image you want
+to see from the displayed list.
+
+   You can play with the formulas too. Hit 'T' for the fractal types menu.
+Choose FORMULA. Now hit 'F6' and select GALLET from the displayed list.
+Then you can pick the formula you want to play with.
